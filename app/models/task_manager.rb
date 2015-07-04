@@ -1,4 +1,5 @@
 require 'yaml/store'
+require_relative 'task'
 
 class TaskManager
   def self.database
@@ -12,5 +13,15 @@ class TaskManager
       database['total'] += 1
       database['tasks'] << { "id" => database['total'], "title" => task[:title], "description" => task[:description] }
     end
+  end
+
+  def self.raw_tasks
+    database.transaction do
+      database['tasks'] || []
+    end
+  end
+
+  def self.all
+    raw_tasks.map { |data| Task.new(data) }
   end
 end
