@@ -28,6 +28,7 @@ class TaskManager
 
   def self.all
     # raw_tasks.map { |data| Task.new(data) }
+    database.from(:tasks).to_a.map { |data| Task.new(data) }
   end
 
   def self.raw_task(id)
