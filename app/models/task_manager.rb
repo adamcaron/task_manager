@@ -5,17 +5,19 @@ class TaskManager
       @database ||= Sequel.sqlite('db/task_manager_test.sqlite3')
     else
       # @database ||= YAML::Store.new("db/task_manager")
-      @database ||= Sequel.sqlite('db/task_manager.sqlite3')
+      @database ||= Sequel.sqlite('db/task_manager_development.sqlite3')
     end
   end
 
   def self.create(task)
-    database.transaction do
-      database['tasks'] ||= []
-      database['total'] ||= 0
-      database['total'] += 1
-      database['tasks'] << { "id" => database['total'], "title" => task[:title], "description" => task[:description] }
-    end
+    # database.transaction do
+    #   database['tasks'] ||= []
+    #   database['total'] ||= 0
+    #   database['total'] += 1
+    #   database['tasks'] << { "id" => database['total'], "title" => task[:title], "description" => task[:description] }
+    # end
+    database.from(:tasks).insert(title:       task[:title],
+                                 description: task[:description])
   end
 
   def self.raw_tasks
@@ -25,7 +27,7 @@ class TaskManager
   end
 
   def self.all
-    raw_tasks.map { |data| Task.new(data) }
+    # raw_tasks.map { |data| Task.new(data) }
   end
 
   def self.raw_task(id)
