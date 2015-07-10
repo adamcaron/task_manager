@@ -31,12 +31,13 @@ class TaskManager
     dataset.to_a.map { |data| Task.new(data) }
   end
 
-  def self.raw_task(id)
-    raw_tasks.find { |task| task["id"] == id }
-  end
+  # def self.raw_task(id)
+  #   raw_tasks.find { |task| task["id"] == id }
+  # end
 
   def self.find(id)
-    Task.new(raw_task(id))
+    # Task.new(raw_task(id))
+    Task.new(dataset.where(id: id).first)
   end
 
   def self.update(id, task)
