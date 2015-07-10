@@ -16,7 +16,7 @@ class TaskManager
     #   database['total'] += 1
     #   database['tasks'] << { "id" => database['total'], "title" => task[:title], "description" => task[:description] }
     # end
-    database.from(:tasks).insert(title:       task[:title],
+    dataset.insert(title:       task[:title],
                                  description: task[:description])
   end
 
@@ -28,7 +28,7 @@ class TaskManager
 
   def self.all
     # raw_tasks.map { |data| Task.new(data) }
-    database.from(:tasks).to_a.map { |data| Task.new(data) }
+    dataset.to_a.map { |data| Task.new(data) }
   end
 
   def self.raw_task(id)
@@ -58,6 +58,10 @@ class TaskManager
     #   database['tasks'] = []
     #   database['total'] = 0
     # end
-    database.from(:tasks).delete
+    dataset.delete
+  end
+
+  def self.dataset
+    database.from(:tasks)
   end
 end
