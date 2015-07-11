@@ -1,4 +1,3 @@
-
 require 'sequel'
 require 'sqlite3'
 require './app/models/task_manager'
