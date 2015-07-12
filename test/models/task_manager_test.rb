@@ -11,14 +11,12 @@ class TaskManagerTest < Minitest::Test
   end
 
   def test_it_finds_all_tasks
-    TaskManager.create({ :title => "1st title", :description => "1st description" })
-    TaskManager.create({ :title => "2nd title", :description => "2nd description" })
-    TaskManager.create({ :title => "3rd title", :description => "3rd description" })
-    tasks = TaskManager.all
+    3.times do
+      TaskManager.create({ :title => "a title",
+                           :description => "a description"})
+    end
 
-    assert_equal 3, tasks[2].id
-    assert_equal "2nd title", tasks[1].title
-    assert_equal "1st description", tasks[0].description
+    assert_equal 3, TaskManager.all.count
   end
 
   def test_it_finds_a_task_by_id
