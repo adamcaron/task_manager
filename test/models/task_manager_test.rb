@@ -20,24 +20,28 @@ class TaskManagerTest < Minitest::Test
   def test_it_finds_a_task_by_id
     TaskManager.create({ :title => "a title", :description => "a description" })
     TaskManager.create({ :title => "2nd title", :description => "2nd description" })
-    assert_equal "2nd description", TaskManager.find(2).description
+    assert_equal "2nd description", TaskManager.find(TaskManager.all.last.id).description
   end
 
   def test_it_updates_a_task
-    TaskManager.create({ "title" => "a title", "description" => "a description" })
-    TaskManager.update(1, {:id=>1, :title=>"sweet title", :description=>"a new description"})
+    create_task
+    TaskManager.update(TaskManager.all.first.id, { id: 1, title: "sweet title", description: "a new description" })
 
-    assert_equal "sweet title", TaskManager.find(1).title
-    assert_equal "a new description", TaskManager.find(1).description
+    assert_equal "sweet title", TaskManager.find(TaskManager.all.first.id).title
+    assert_equal "a new description", TaskManager.find(TaskManager.all.first.id).description
   end
 
   def test_it_annihilates_a_task_into_oblivion
-    task = TaskManager.create({ :title => "a title", :description => "a description" })
-    TaskManager.create({ :title => "2nd title", :description => "2nd description" })
+    task = TaskManager.create({ title: "a title", description: "a description" })
+    TaskManager.create({ title: "2nd title", description: "2nd description" })
 
-    TaskManager.delete(1)
+    TaskManager.delete(TaskManager.all.first.id)
 
-    assert_equal "2nd description", TaskManager.find(2).description
+    assert_equal "2nd description", TaskManager.find(TaskManager.all.last.id).description
     refute TaskManager.all.include?(task)
+  end
+
+  def create_task
+    TaskManager.create({ title: "a title", description: "a description" })
   end
 end
