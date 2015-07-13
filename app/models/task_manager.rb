@@ -17,8 +17,7 @@ class TaskManager
     #   database['tasks'] << { "id" => database['total'], "title" => task[:title], "description" => task[:description] }
     # end
     begin
-      dataset.insert(title:       task[:title],
-                                   description: task[:description])
+      dataset.insert(title: task[:title], description: task[:description])
     rescue
       return false
     end
@@ -51,7 +50,7 @@ class TaskManager
     #   target["title"] = task[:title]
     #   target["description"] = task[:description]
     # end
-    target = datset.where(id: id).update(task)
+    target = dataset.where(id: id).update(task)
   end
 
   def self.delete(id)
